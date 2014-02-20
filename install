@@ -1,0 +1,126 @@
+#!/usr/bin/env bash
+
+SRC=~/src
+INSTALL=()
+OS=$(uname)
+
+curl=$(which curl)
+
+
+download(){
+    local url="$1"; shift
+    local tempfile="$1"
+    $curl --location --insecure -o ${tempfile} ${url}
+}
+
+check_deps(){
+    local deps=( git vagrant vboxwebsrv )
+    for dep in ${deps[@]}; do
+        if [ -z "$(which $dep)" ]; then
+            [ "$dep" = vboxwebsrv ] && dep=virtualbox
+            echo "$dep is missing"
+            INSTALL+=("$dep")
+        fi
+    done
+    check_pip
+    check_ansible
+    check_virtualbox_deps
+}
+
+check_pip(){
+    if [ -z "$(which pip)" -o \
+            "$(pip --help |grep -o Usage)" != Usage ]; then
+        echo 'pip is missing'
+        INSTALL+=("pip")
+    fi
+}
+
+check_virtualbox_deps(){
+    local missing=0
+    [ -z "$(which VBoxManage)" ] && missing=1
+    if [ -n "$(which VBoxManage)" ]; then
+        [ "$(VBoxManage list extpacks)" = "Extension Packs: 0" ] && missing=1
+    fi
+    if [ "$missing" -eq 1 ]; then
+        echo "virtualbox-extpack is missing"
+        INSTALL+=("virtualbox_extpack")
+    fi
+}
+
+install_git(){
+    install_homebrew
+}
+
+install_homebrew(){
+    # the xcode command line tools include git; this makes sure the tools
+    # are installed - basically just does a `xcode-select --install`
+    local hb_url=https://raw.github.com/Homebrew/homebrew/go/install
+    ruby -e "$($curl -fsSL ${hb_url})"
+}
+
+install_pip(){
+    local dl_url=https://raw.github.com/pypa/pip/master/contrib/get-pip.py
+    local pip_tmp=/tmp/get-pip.py
+    [ ! -f "${pip_tmp}" ] && download ${dl_url} ${pip_tmp}
+    sudo python ${pip_tmp}
+}
+
+install_virtualbox(){
+    local version=4.3.6
+    local build=91406
+    local dl_url=http://download.virtualbox.org/virtualbox/${version}
+    local dmg_url=${dl_url}/VirtualBox-${version}-${build}-OSX.dmg
+    local sha_url=${dl_url}/SHA256SUMS
+    local dmg_tmp=/tmp/VirtualBox-${version}-${build}-OSX.dmg
+
+    [ ! -f "${dmg_tmp}" ] && download ${dmg_url} ${dmg_tmp}
+
+    hdiutil attach -mountpoint /Volumes/VirtualBox ${dmg_tmp}
+    sudo /usr/sbin/installer -pkg /Volumes/VirtualBox/VirtualBox.pkg -target /
+    hdiutil detach /Volumes/VirtualBox
+
+    install_virtualbox_extpack ${version} ${dl_url}
+}
+
+install_virtualbox_extpack(){
+    local version=4.3.6
+    local dl_url=http://download.virtualbox.org/virtualbox/${version}
+    local fname=Oracle_VM_VirtualBox_Extension_Pack-${version}.vbox-extpack
+    local ep_url=${dl_url}/${fname}
+    local ep_tmp=/tmp/${fname}
+
+    [ ! -f "${ep_tmp}" ] && download ${ep_url} ${ep_tmp}
+
+    /usr/bin/VBoxManage extpack install ${ep_tmp}
+}
+
+install_vagrant(){
+    local version=1.4.3
+    local dl_url=https://dl.bintray.com/mitchellh/vagrant
+    local dmg_url=${dl_url}/Vagrant-${version}.dmg
+    local sha_url=${dl_url}/${version}_SHA256SUMS?direct
+    local dmg_tmp=/tmp/Vagrant-${version}.dmg
+
+    [ ! -f "${dmg_tmp}" ] && download ${dmg_url} ${dmg_tmp}
+
+    hdiutil attach -mountpoint /Volumes/Vagrant ${dmg_tmp}
+    sudo /usr/sbin/installer -pkg /Volumes/Vagrant/Vagrant.pkg -target /
+    hdiutil detach /Volumes/Vagrant
+}
+
+install_deps(){
+    if [  "${#INSTALL[*]}" -gt 0 ]; then
+        echo -e "\n${#INSTALL[*]} dependencies to install: ${INSTALL[*]}"
+        for dep in ${INSTALL[@]}; do
+            echo -e "\nInstalling ${dep}..."
+            install_${dep}
+        done
+    fi
+}
+
+install(){
+    check_deps
+    install_deps
+}
+
+install
