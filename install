@@ -80,8 +80,6 @@ install_virtualbox(){
     hdiutil attach -mountpoint /Volumes/VirtualBox ${dmg_tmp}
     sudo /usr/sbin/installer -pkg /Volumes/VirtualBox/VirtualBox.pkg -target /
     hdiutil detach /Volumes/VirtualBox
-
-    install_virtualbox_extpack ${version} ${dl_url}
 }
 
 install_virtualbox_extpack(){
