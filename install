@@ -23,7 +23,6 @@ check_deps(){
         fi
     done
     check_pip
-    check_ansible
     check_virtualbox_deps
 }
 
