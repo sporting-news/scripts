@@ -14,10 +14,11 @@ download(){
 }
 
 check_deps(){
-    local deps=( git vagrant vboxwebsrv )
+    local deps=( brew vagrant vboxwebsrv )
     for dep in ${deps[@]}; do
         if [ -z "$(which $dep)" ]; then
             [ "$dep" = vboxwebsrv ] && dep=virtualbox
+            [ "$dep" = brew ] && dep=homebrew
             echo "$dep is missing"
             INSTALL+=("$dep")
         fi
