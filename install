@@ -28,8 +28,10 @@ check_deps(){
 }
 
 check_pip(){
-    if [ -z "$(which pip)" -o \
-            "$(pip --help |grep -o Usage)" != Usage ]; then
+    local missing=0
+    [ -z "$(which pip)" ] && missing=1
+    [ "$(pip --help |grep -o Usage)" != Usage ] && missing=1
+    if [ "$missing" -eq 1 ]; then
         echo 'pip is missing'
         INSTALL+=("pip")
     fi
