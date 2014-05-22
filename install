@@ -13,27 +13,42 @@ download(){
     $curl --location --insecure -o ${tempfile} ${url}
 }
 
-check_deps(){
-    local deps=( brew vagrant vboxwebsrv )
-    for dep in ${deps[@]}; do
-        if [ -z "$(which $dep)" ]; then
-            [ "$dep" = vboxwebsrv ] && dep=virtualbox
-            [ "$dep" = brew ] && dep=homebrew
-            echo "$dep is missing"
-            INSTALL+=("$dep")
-        fi
-    done
-    check_pip
-    check_virtualbox_deps
+check_git(){
+    local missing=0
+    [ -z "$(which git)" ] && missing=1
+    if [ "$missing" -eq 1 ]; then
+        echo 'git is missing'
+        INSTALL+=("git")
+    fi
 }
 
-check_pip(){
+check_homebrew(){
     local missing=0
-    [ -z "$(which pip)" ] && missing=1
-    [ "$(pip --help |grep -o Usage)" != Usage ] && missing=1
+    [ -z "$(which brew)" ] && missing=1
+    if [ -n "$(which brew)" ]; then
+        [ "$(brew help |grep -o Example)" != Example ] && missing=1
+    fi
     if [ "$missing" -eq 1 ]; then
-        echo 'pip is missing'
-        INSTALL+=("pip")
+        echo 'homebrew is missing'
+        INSTALL+=("homebrew")
+    fi
+}
+
+check_vagrant(){
+    local missing=0
+    [ -z "$(which vagrant)" ] && missing=1
+    if [ "$missing" -eq 1 ]; then
+        echo 'vagrant is missing'
+        INSTALL+=("vagrant")
+    fi
+}
+
+check_virtualbox(){
+    local missing=0
+    [ -z "$(which vboxwebsrv)" ] && missing=1
+    if [ "$missing" -eq 1 ]; then
+        echo 'virtualbox is missing'
+        INSTALL+=("virtualbox")
     fi
 }
 
@@ -47,6 +62,32 @@ check_virtualbox_deps(){
         echo "virtualbox-extpack is missing"
         INSTALL+=("virtualbox_extpack")
     fi
+}
+
+check_pip(){
+    local missing=0
+    [ -z "$(which pip)" ] && missing=1
+    if [ -n "$(which pip)" ]; then
+        [ "$(pip --help |grep -o Usage)" != Usage ] && missing=1
+    fi
+    if [ "$missing" -eq 1 ]; then
+        echo 'pip is missing'
+        INSTALL+=("pip")
+    fi
+}
+
+check_deps(){
+    check_git
+    check_homebrew
+    check_vagrant
+    check_virtualbox
+    check_virtualbox_deps
+    check_pip
+}
+
+dedup_deps(){
+    local install_git=0
+    local install_homebrew=0
 }
 
 install_git(){
