@@ -108,13 +108,25 @@ install_pip(){
     sudo python ${pip_tmp}
 }
 
+get_latest_version_virtualbox(){
+    local latest_url=${VBOX_URL}/LATEST.TXT
+    local latest_tmp=/tmp/vboxversion
+    local version=$(download ${latest_url} ${latest_tmp} && cat ${latest_tmp})
+    echo ${version}
+}
+
+get_latest_build_virtualbox(){
+    local sha_url=${VBOX_URL}/${VBOX_VERSION}/SHA256SUMS
+    local sha_tmp=/tmp/vbshasums
+    local build=$(download ${sha_url} ${sha_tmp} && \
+                  grep dmg ${sha_tmp} |awk -F- "{print \$3}")
+    echo ${build}
+}
+
 install_virtualbox(){
-    local version=4.3.6
-    local build=91406
-    local dl_url=http://download.virtualbox.org/virtualbox/${version}
-    local dmg_url=${dl_url}/VirtualBox-${version}-${build}-OSX.dmg
-    local sha_url=${dl_url}/SHA256SUMS
-    local dmg_tmp=/tmp/VirtualBox-${version}-${build}-OSX.dmg
+    local dl_url=${VBOX_URL}/${VBOX_VERSION}
+    local dmg_url=${dl_url}/VirtualBox-${VBOX_VERSION}-${VBOX_BUILD}-OSX.dmg
+    local dmg_tmp=/tmp/VirtualBox-${VBOX_VERSION}-${VBOX_BUILD}-OSX.dmg
 
     [ ! -f "${dmg_tmp}" ] && download ${dmg_url} ${dmg_tmp}
 
@@ -124,9 +136,8 @@ install_virtualbox(){
 }
 
 install_virtualbox_extpack(){
-    local version=4.3.6
-    local dl_url=http://download.virtualbox.org/virtualbox/${version}
-    local fname=Oracle_VM_VirtualBox_Extension_Pack-${version}.vbox-extpack
+    local dl_url=${VBOX_URL}/${VBOX_VERSION}
+    local fname=Oracle_VM_VirtualBox_Extension_Pack-${VBOX_VERSION}.vbox-extpack
     local ep_url=${dl_url}/${fname}
     local ep_tmp=/tmp/${fname}
 
@@ -136,7 +147,7 @@ install_virtualbox_extpack(){
 }
 
 install_vagrant(){
-    local version=1.4.3
+    local version=1.6.2
     local dl_url=https://dl.bintray.com/mitchellh/vagrant
     local dmg_url=${dl_url}/Vagrant-${version}.dmg
     local sha_url=${dl_url}/${version}_SHA256SUMS?direct
@@ -163,5 +174,9 @@ install(){
     check_deps
     install_deps
 }
+
+VBOX_URL=http://download.virtualbox.org/virtualbox
+VBOX_VERSION=$(get_latest_version_virtualbox)
+VBOX_BUILD=$(get_latest_build_virtualbox)
 
 install
