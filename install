@@ -81,10 +81,11 @@ check_pip(){
 }
 
 check_ansible_deps(){
+    local missing=0
     local deps=(paramiko PyYAML Jinja2 httplib2)
     for pkg in ${deps[@]}; do
-        count=$(pip freeze |egrep -c $pkg)
-        if [ "$count" -lt 1 ]; then
+        [ -z "$(pip freeze |grep $pkg)" ] && missing=1
+        if [ "$missing" -eq 1 ]; then
             echo "$pkg is missing"
             sudo pip install $pkg
         fi
