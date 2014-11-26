@@ -76,6 +76,17 @@ check_pip(){
     fi
 }
 
+check_ansible_deps(){
+    local deps=(paramiko PyYAML Jinja2 httplib2)
+    for pkg in ${deps[@]}; do
+        count=$(pip freeze |egrep -c $pkg)
+        if [ "$count" -lt 1 ]; then
+            echo "$pkg is missing"
+            sudo pip install $pkg
+        fi
+    done
+}
+
 check_deps(){
     check_git
     check_homebrew
@@ -83,6 +94,7 @@ check_deps(){
     check_virtualbox
     check_virtualbox_deps
     check_pip
+    check_ansible_deps
 }
 
 dedup_deps(){
