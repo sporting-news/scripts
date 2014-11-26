@@ -148,6 +148,10 @@ check_deps(){
     check_virtualbox_deps
     check_pip
     check_ansible_deps
+    check_sublime
+    check_mysql_workbench
+    check_sequel_pro
+    check_iterm2
 }
 
 dedup_deps(){
