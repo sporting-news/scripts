@@ -4,6 +4,10 @@ SRC=~/src
 INSTALL=()
 OS=$(uname)
 
+SUBLIME_PC_DIR=~/Library/Application\ Support/Sublime\ Text\ 3/Installed\ Packages
+SUBLIME_PC_FILE=Package\ Control.sublime-package
+SUBLIME_PC=${SUBLIME_PC_DIR}/${SUBLIME_PC_FILE}
+
 curl=$(which curl)
 
 
@@ -85,6 +89,27 @@ check_ansible_deps(){
             sudo pip install $pkg
         fi
     done
+}
+
+check_sublime_package_control(){
+    local missing=0
+    [ -z "$(ls -l $SUBLIME_PC_DIR |grep $SUBLIME_PC_FILE)" ] && missing=1
+    if [ "$missing" -eq 1 ]; then
+        echo 'sublime-package-control is missing'
+        install_sublime_package_control
+    fi
+}
+
+check_sublime(){
+    local missing=0
+    [ -z "$(ls -l /Applications/ |grep 'Sublime Text.app')"  ] && missing=1
+    if [ "$missing" -eq 1 ]; then
+        echo 'sublime is missing'
+        INSTALL+=("sublime")
+    fi
+    if [ "$missing" -eq 0 ]; then
+        check_sublime_package_control
+    fi
 }
 
 check_deps(){
@@ -170,6 +195,29 @@ install_vagrant(){
     hdiutil attach -mountpoint /Volumes/Vagrant ${dmg_tmp}
     sudo /usr/sbin/installer -pkg /Volumes/Vagrant/Vagrant.pkg -target /
     hdiutil detach /Volumes/Vagrant
+}
+
+install_sublime_package_control(){
+    local dl_url=https://sublime.wbond.net/Package%20Control.sublime-package
+    local dl_tmp=/tmp/${SUBLIME_PC_FILE}
+
+    [ ! -f "${dl_tmp}" ] && download ${dl_url} ${dl_tmp}
+    [ ! -f "${SUBLIME_PC}" ] && cp ${dl_tmp} ${SUBLIME_PC_DIR}
+}
+
+install_sublime(){
+    local build=3065
+    local dl_url=http://c758482.r82.cf2.rackcdn.com
+    local dmg_url=${dl_url}/Sublime%20Text%20Build%20${build}.dmg
+    local dmg_tmp=/tmp/SublimeText${build}
+
+    [ ! -f "${dmg_tmp}" ] && download ${dmg_url} ${dmg_tmp}
+
+    hdiutil attach -mountpoint /Volumes/SublimeText${build} ${dmg_tmp}
+    sudo cp -r /Volumes/SublimeText${build}/Sublime\ Test.app /Applications/
+    hdiutil detach /Volumes/SublimeText${build}
+
+    install_sublime_package_control
 }
 
 install_deps(){
