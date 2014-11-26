@@ -97,7 +97,7 @@ install_git(){
 install_homebrew(){
     # the xcode command line tools include git; this makes sure the tools
     # are installed - basically just does a `xcode-select --install`
-    local hb_url=https://raw.github.com/Homebrew/homebrew/go/install
+    local hb_url=https://raw.githubusercontent.com/Homebrew/install/master/install
     ruby -e "$($curl -fSL ${hb_url})"
 }
 
