@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+#
+# to run this script via cli:
+#
+# `curl -Lk http://git.io/2nPUsQ | bash`
+#
+###############################################################################
 
 SRC=~/src
 INSTALL=()
