@@ -224,9 +224,9 @@ install_virtualbox_extpack(){
 install_vagrant(){
     local version=1.7.2
     local dl_url=https://dl.bintray.com/mitchellh/vagrant
-    local dmg_url=${dl_url}/Vagrant-${version}.dmg
+    local dmg_url=${dl_url}/Vagrant_${version}.dmg
     local sha_url=${dl_url}/${version}_SHA256SUMS?direct
-    local dmg_tmp=/tmp/Vagrant-${version}.dmg
+    local dmg_tmp=/tmp/Vagrant_${version}.dmg
 
     [ ! -f "${dmg_tmp}" ] && download ${dmg_url} ${dmg_tmp}
 
