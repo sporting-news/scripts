@@ -1,0 +1,11 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.ssh.insert_key = false
+  config.vm.box = "sn-ubuntu-14.04"
+  config.vm.box_url = "http://boxes.sn.internal/ubuntu/copa-ubuntu-14.04.box"
+  config.vm.synced_folder ".", "/var/www/html/ca2015"
+end
