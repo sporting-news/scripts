@@ -24,6 +24,15 @@ Grab the config file for vagrant:
 
 `curl -L "http://cl.ly/ankO" -o Vagrantfile`
 
+If you have already done the previous steps and simply need to use the most
+recent box - before starting it back up, you'll need to destroy the existing vm
+and remove the Vagrant box:
+
+```
+vagrant destroy
+vagrant box remove copa-ubuntu-subzero
+```
+
 Start vagrant vm:
 
 `vagrant up`
