@@ -13,6 +13,17 @@ Grab the config file for vagrant:
 
 `curl -L "http://cl.ly/ankO" -o Vagrantfile`
 
+Pull down vagrant box ssh keys (copy/paste):
+
+```
+tmpdir=/tmp/sn-vagrant-copa2015; mkdir $tmpdir; cd $tmpdir; \
+curl -Lk "https://www.dropbox.com/s/k21kqfwnzss37y7/copa2015-ssh-keys.gz?dl=0" \
+    -o v.gz && \
+    tar xvzf v.gz && \
+    mv -i id_rsa_vagrant_copa2015* ~/.ssh/ && \
+    cd -; rm -rf $tmpdir
+```
+
 Start vagrant vm:
 
 `vagrant up`
