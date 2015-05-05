@@ -8,6 +8,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.private_key_path = "~/.ssh/id_rsa_vagrant_copa2015"
   config.vm.box = "copa-ubuntu-subzero"
   config.vm.box_url = "http://boxes.sn.internal/ubuntu/copa-ubuntu-subzero.box"
-  config.vm.synced_folder ".", "/srv/www/html/ca2015"
+  config.vm.synced_folder ".", "/srv/www/local.ca2015.com"
   config.vm.network :private_network, ip: "192.168.56.100"
 end
