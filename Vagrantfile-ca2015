@@ -5,6 +5,7 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.insert_key = false
+  config.ssh.private_key_path = "~/.ssh/id_rsa_vagrant_copa2015"
   config.vm.box = "copa-ubuntu-subzero"
   config.vm.box_url = "http://boxes.sn.internal/ubuntu/copa-ubuntu-subzero.box"
   config.vm.synced_folder ".", "/srv/www/html/ca2015"
