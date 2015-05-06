@@ -36,3 +36,19 @@ vagrant box remove copa-ubuntu-subzero
 Start vagrant vm:
 
 `vagrant up`
+
+Before accessing the guest, change the permissions of the _.cache_ dir:
+
+`chmod 777 .cache`
+
+Login to the guest vm:
+
+`vagrant ssh`
+
+Install the project dependencies on the guest:
+
+```
+cd /srv/www/local.ca2015.com
+composer install
+./repository/create
+```
