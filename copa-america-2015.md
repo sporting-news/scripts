@@ -5,9 +5,17 @@ Change into **_~/src_** or wherever you want to store the **_ca2015_** repo:
 
 `cd ~/src`
 
-Clone the **_ca2015_** repo from gitlab and **_cd_** to it:
+Create a directory for the project and subdir for the Copa repo:
 
-`git clone git@10.12.23.123:webapp/ca2015.git && cd ca2015`
+`mkdir -p copa/ca2015`
+
+Clone the **_ca2015_** repo from gitlab into the **_ca2015_** dir:
+
+`git clone git@10.12.23.123:webapp/ca2015.git copa/ca2015/`
+
+Change into the **_copa_** dir:
+
+`cd copa`
 
 Pull down vagrant box ssh keys (copy/paste):
 
@@ -52,7 +60,7 @@ git clone git@git.performgroup.com:webapp/ca2015-config.git /srv/www/local.ca201
 
 Now, from the host, change the permissions of the _.cache_ dir:
 
-`chmod 777 .cache`
+`chmod 777 ca2015/.cache`
 
 Access the site in your browser:
 
