@@ -21,7 +21,7 @@ Pull down vagrant box ssh keys (copy/paste):
 
 ```
 tmpdir=/tmp/sn-vagrant-copa2015; mkdir $tmpdir; cd $tmpdir; \
-curl -Lk "https://www.dropbox.com/s/k21kqfwnzss37y7/copa2015-ssh-keys.gz?dl=0" \
+curl -Lk "https://www.dropbox.com/s/4po4wwdlq4m3vow/copa2015-ssh-keys.gz?dl=0" \
     -o v.gz && \
     tar xvzf v.gz && \
     mv -i id_rsa_vagrant_copa2015* ~/.ssh/ && \
