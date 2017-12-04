@@ -182,9 +182,7 @@ install_virtualbox(){
     local dl_url=${VBOX_URL}/${VBOX_VERSION}
     local dmg_url=${dl_url}/VirtualBox-${VBOX_VERSION}-${VBOX_BUILD}-OSX.dmg
     local dmg_tmp=/tmp/VirtualBox-${VBOX_VERSION}-${VBOX_BUILD}-OSX.dmg
-
     [ ! -f "${dmg_tmp}" ] && download ${dmg_url} ${dmg_tmp}
-
     hdiutil attach -mountpoint /Volumes/VirtualBox ${dmg_tmp}
     sudo /usr/sbin/installer -pkg /Volumes/VirtualBox/VirtualBox.pkg -target /
     hdiutil detach /Volumes/VirtualBox
@@ -195,9 +193,7 @@ install_virtualbox_extpack(){
     local fname=Oracle_VM_VirtualBox_Extension_Pack-${VBOX_VERSION}.vbox-extpack
     local ep_url=${dl_url}/${fname}
     local ep_tmp=/tmp/${fname}
-
     [ ! -f "${ep_tmp}" ] && download ${ep_url} ${ep_tmp}
-
     /usr/bin/VBoxManage extpack install ${ep_tmp}
 }
 
@@ -208,9 +204,7 @@ install_vagrant(){
     local dmg_url=${dl_url}_${arch}.dmg
     local sha_url=${dl_url}_SHA256SUMS
     local dmg_tmp=/tmp/Vagrant_${version}.dmg
-
     [ ! -f "${dmg_tmp}" ] && download ${dmg_url} ${dmg_tmp}
-
     hdiutil attach -mountpoint /Volumes/Vagrant ${dmg_tmp}
     sudo /usr/sbin/installer -pkg /Volumes/Vagrant/vagrant.pkg -target /
     hdiutil detach /Volumes/Vagrant
@@ -219,7 +213,6 @@ install_vagrant(){
 install_sublime_package_control(){
     local dl_url=https://sublime.wbond.net/Package%20Control.sublime-package
     local dl_tmp=/tmp/${SUBLIME_PC_FILE}
-
     [ ! -f "${dl_tmp}" ] && download ${dl_url} ${dl_tmp}
     [ ! -f "${SUBLIME_PC}" ] && cp ${dl_tmp} ${SUBLIME_PC_DIR}
 }
@@ -229,13 +222,10 @@ install_sublime(){
     local dl_url=https://download.sublimetext.com
     local dmg_url=${dl_url}/Sublime%20Text%20Build%20${build}.dmg
     local dmg_tmp=/tmp/SublimeText${build}.dmg
-
     [ ! -f "${dmg_tmp}" ] && download ${dmg_url} ${dmg_tmp}
-
     hdiutil attach -mountpoint /Volumes/SublimeText${build} ${dmg_tmp}
     sudo cp -r /Volumes/SublimeText${build}/Sublime\ Test.app /Applications/
     hdiutil detach /Volumes/SublimeText${build}
-
     install_sublime_package_control
 }
 
@@ -245,9 +235,7 @@ install_iterm2(){
     local zip_url=https://iterm2.com/downloads/stable/${zip_file}
     local zip_tmp=/tmp/${zip_file}
     local zip_app=/tmp/iTerm.app
-
     [ ! -f "${zip_tmp}" ] && download ${zip_url} ${zip_tmp}
-
     unzip ${zip_tmp}
     sudo cp -r ${zip_app} /Applications/
 }
