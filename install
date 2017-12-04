@@ -134,10 +134,10 @@ check_deps(){
     check_vagrant
     check_virtualbox
     check_virtualbox_deps
-    check_pip
-    check_ansible_deps
+    #check_pip
+    #check_ansible_deps
     check_sublime
-    check_iterm2
+    #check_iterm2
 }
 
 dedup_deps(){
