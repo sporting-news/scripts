@@ -10,9 +10,9 @@ SRC=~/src
 INSTALL=()
 OS=$(uname)
 
-SUBLIME_PC_DIR=~/Library/Application\ Support/Sublime\ Text\ 3/Installed\ Packages
-SUBLIME_PC_FILE=Package\ Control.sublime-package
-SUBLIME_PC=${SUBLIME_PC_DIR}/${SUBLIME_PC_FILE}
+SUBLIME_PKGS_DIR=~/Library/Application\ Support/Sublime\ Text\ 3/Installed\ Packages
+SUBLIME_PC=Package\ Control.sublime-package
+SUBLIME_PC_FILE=${SUBLIME_PKGS_DIR}/${SUBLIME_PC}
 
 curl=$(which curl)
 
@@ -100,7 +100,7 @@ check_ansible_deps(){
 
 check_sublime_package_control(){
     local missing=0
-    [ -z "$(ls -l $SUBLIME_PC_DIR |grep $SUBLIME_PC_FILE)" ] && missing=1
+    [ ! -f "$SUBLIME_PC_FILE"] && missing=1
     if [ "$missing" -eq 1 ]; then
         echo 'sublime-package-control is missing'
         install_sublime_package_control
@@ -218,9 +218,9 @@ install_vagrant(){
 install_sublime_package_control(){
     echo 'installing sublime-package-control...'
     local dl_url=https://sublime.wbond.net/Package%20Control.sublime-package
-    local dl_tmp=/tmp/${SUBLIME_PC_FILE}
+    local dl_tmp=/tmp/${SUBLIME_PC}
     [ ! -f "${dl_tmp}" ] && download ${dl_url} ${dl_tmp}
-    [ ! -f "${SUBLIME_PC}" ] && cp ${dl_tmp} ${SUBLIME_PC_DIR}
+    cp ${dl_tmp} ${SUBLIME_PC_FILE}
 }
 
 install_sublime(){
