@@ -220,7 +220,8 @@ install_sublime_package_control(){
     local dl_url=https://sublime.wbond.net/Package%20Control.sublime-package
     local dl_tmp=/tmp/${SUBLIME_PC}
     [ ! -f "${dl_tmp}" ] && download ${dl_url} ${dl_tmp}
-    cp ${dl_tmp} ${SUBLIME_PC_FILE}
+    [ ! -d "${SUBLIME_PKGS_DIR}" ] && mkdir -p "${SUBLIME_PKGS_DIR}"
+    cp ${dl_tmp} "${SUBLIME_PKGS_DIR}"
 }
 
 install_sublime(){
