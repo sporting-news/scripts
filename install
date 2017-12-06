@@ -2,7 +2,7 @@
 #
 # to run this script via cli:
 #
-# `curl -Lk http://git.io/2nPUsQ | bash`
+# `curl -sSL https://git.io/2nPUsQ | bash`
 #
 ###############################################################################
 
@@ -20,7 +20,7 @@ curl=$(which curl)
 download(){
     local url="$1"; shift
     local tempfile="$1"
-    $curl --location --insecure -o ${tempfile} ${url}
+    $curl --silent --location --insecure -o ${tempfile} ${url}
 }
 
 check_git(){
