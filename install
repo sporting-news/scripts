@@ -150,6 +150,7 @@ install_git(){
 }
 
 install_homebrew(){
+    echo 'installing homebrew...'
     # the xcode command line tools include git; this makes sure the tools
     # are installed - basically just does a `xcode-select --install`
     local hb_url=https://raw.githubusercontent.com/Homebrew/install/master/install
@@ -157,6 +158,7 @@ install_homebrew(){
 }
 
 install_pip(){
+    echo 'installing pip...'
     local dl_url=https://raw.github.com/pypa/pip/master/contrib/get-pip.py
     local pip_tmp=/tmp/get-pip.py
     [ ! -f "${pip_tmp}" ] && download ${dl_url} ${pip_tmp}
@@ -179,6 +181,7 @@ get_latest_build_virtualbox(){
 }
 
 install_virtualbox(){
+    echo 'installing virtualbox...'
     local dl_url=${VBOX_URL}/${VBOX_VERSION}
     local dmg_url=${dl_url}/VirtualBox-${VBOX_VERSION}-${VBOX_BUILD}-OSX.dmg
     local dmg_tmp=/tmp/VirtualBox-${VBOX_VERSION}-${VBOX_BUILD}-OSX.dmg
@@ -189,6 +192,7 @@ install_virtualbox(){
 }
 
 install_virtualbox_extpack(){
+    echo 'installing virtualbox-extpack...'
     local dl_url=${VBOX_URL}/${VBOX_VERSION}
     local fname=Oracle_VM_VirtualBox_Extension_Pack-${VBOX_VERSION}.vbox-extpack
     local ep_url=${dl_url}/${fname}
@@ -198,6 +202,7 @@ install_virtualbox_extpack(){
 }
 
 install_vagrant(){
+    echo 'installing vagrant...'
     local version=1.9.4
     local arch=$(uname -m)
     local dl_url=https://releases.hashicorp.com/vagrant/${version}/vagrant_${version}
@@ -211,6 +216,7 @@ install_vagrant(){
 }
 
 install_sublime_package_control(){
+    echo 'installing sublime-package-control...'
     local dl_url=https://sublime.wbond.net/Package%20Control.sublime-package
     local dl_tmp=/tmp/${SUBLIME_PC_FILE}
     [ ! -f "${dl_tmp}" ] && download ${dl_url} ${dl_tmp}
@@ -218,6 +224,7 @@ install_sublime_package_control(){
 }
 
 install_sublime(){
+    echo 'installing sublime...'
     local build=3126
     local dl_url=https://download.sublimetext.com
     local dmg_url=${dl_url}/Sublime%20Text%20Build%20${build}.dmg
@@ -230,6 +237,7 @@ install_sublime(){
 }
 
 install_iterm2(){
+    echo 'installing iterm2...'
     local version=v2_0
     local zip_file=iTerm2_${version}.zip
     local zip_url=https://iterm2.com/downloads/stable/${zip_file}
@@ -241,6 +249,7 @@ install_iterm2(){
 }
 
 install_brew_bundle(){
+    echo 'installing brew-bundle...'
     local build_dir=/tmp/sn-brew-bundle
     local brewfile_url=https://git.io/vbc7u # Brewfile in this repo
     local brewfile_tmp=${build_dir}/Brewfile
