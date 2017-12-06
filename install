@@ -240,6 +240,17 @@ install_iterm2(){
     sudo cp -r ${zip_app} /Applications/
 }
 
+install_brew_bundle(){
+    local build_dir=/tmp/sn-brew-bundle
+    local brewfile_url=https://git.io/vbc7u # Brewfile in this repo
+    local brewfile_tmp=${build_dir}/Brewfile
+    [ ! -d "${build_dir}" ] && mkdir -p ${build_dir}
+    [ -f "${brewfile_tmp}" ] && rm -f ${brewfile_tmp}
+    download ${brewfile_url} ${brewfile_tmp}
+    cd ${build_dir}
+    brew bundle && rm -rf ${build_dir}
+}
+
 install_deps(){
     if [  "${#INSTALL[*]}" -gt 0 ]; then
         echo -e "\n${#INSTALL[*]} dependencies to install: ${INSTALL[*]}"
@@ -253,6 +264,7 @@ install_deps(){
 install(){
     check_deps
     install_deps
+    install_brew_bundle
 }
 
 VBOX_URL=http://download.virtualbox.org/virtualbox
