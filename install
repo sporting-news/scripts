@@ -100,7 +100,7 @@ check_ansible_deps(){
 
 check_sublime_package_control(){
     local missing=0
-    [ ! -f "$SUBLIME_PC_FILE"] && missing=1
+    [ ! -f "$SUBLIME_PC_FILE" ] && missing=1
     if [ "$missing" -eq 1 ]; then
         echo 'sublime-package-control is missing'
         install_sublime_package_control
