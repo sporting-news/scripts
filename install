@@ -20,7 +20,7 @@ curl=$(which curl)
 download(){
     local url="$1"; shift
     local tempfile="$1"
-    $curl --silent --location --insecure -o ${tempfile} ${url}
+    $curl --silent --location -o ${tempfile} ${url}
 }
 
 check_git(){
