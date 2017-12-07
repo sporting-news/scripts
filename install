@@ -161,10 +161,9 @@ dedup_deps(){
 }
 
 install_xcode(){
-    echo 'checking xcode cli tools...'
+    echo 'checking xcode cli tools and installing if necessary...'
     xcode_string="xcode-select: note: install requested for command line developer tools\n"
     xcode_check=$(xcode-select --install)
-    echo -e "installing xcode command-line tools in a new window...\n"
     echo "${xcode_check}"
     while [[ "${xcode_check}" == "${xcode_string}" ]]; do
         xcode_check=$(xcode-select --install)
