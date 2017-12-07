@@ -24,6 +24,7 @@ download(){
 }
 
 check_xcode(){
+    echo 'checking xcode command-line tools...'
     local missing=0
     [ -z "$(xcode-select --print-path)" ] && missing=1
     if [ "$missing" -eq 1 ]; then
@@ -32,6 +33,7 @@ check_xcode(){
     fi
 }
 check_git(){
+    echo 'checking git...'
     local missing=0
     [ -z "$(which git)" ] && missing=1
     if [ "$missing" -eq 1 ]; then
@@ -41,6 +43,7 @@ check_git(){
 }
 
 check_homebrew(){
+    echo 'checking homebrew...'
     local missing=0
     [ -z "$(which brew)" ] && missing=1
     if [ -n "$(which brew)" ]; then
@@ -53,6 +56,7 @@ check_homebrew(){
 }
 
 check_vagrant(){
+    echo 'checking vagrant...'
     local missing=0
     [ -z "$(which vagrant)" ] && missing=1
     if [ "$missing" -eq 1 ]; then
@@ -62,6 +66,7 @@ check_vagrant(){
 }
 
 check_virtualbox(){
+    echo 'checking virtualbox...'
     local missing=0
     [ -z "$(which vboxwebsrv)" ] && missing=1
     if [ "$missing" -eq 1 ]; then
@@ -71,6 +76,7 @@ check_virtualbox(){
 }
 
 check_virtualbox_deps(){
+    echo 'checking virtualbox-deps...'
     local missing=0
     [ -z "$(which VBoxManage)" ] && missing=1
     if [ -n "$(which VBoxManage)" ]; then
@@ -83,6 +89,7 @@ check_virtualbox_deps(){
 }
 
 check_pip(){
+    echo 'checking pip...'
     local missing=0
     [ -z "$(which pip)" ] && missing=1
     if [ -n "$(which pip)" ]; then
@@ -95,6 +102,7 @@ check_pip(){
 }
 
 check_ansible_deps(){
+    echo 'checking ansible-deps...'
     local missing=0
     local deps=(paramiko PyYAML Jinja2 httplib2)
     for pkg in ${deps[@]}; do
@@ -107,6 +115,7 @@ check_ansible_deps(){
 }
 
 check_sublime_package_control(){
+    echo 'checking sublime-package-control...'
     local missing=0
     [ ! -f "$SUBLIME_PC_FILE" ] && missing=1
     if [ "$missing" -eq 1 ]; then
@@ -116,6 +125,7 @@ check_sublime_package_control(){
 }
 
 check_sublime(){
+    echo 'checking sublime...'
     local missing=0
     [ -z "$(ls -l /Applications/ |grep 'Sublime Text.app')"  ] && missing=1
     if [ "$missing" -eq 1 ]; then
@@ -128,6 +138,7 @@ check_sublime(){
 }
 
 check_iterm2(){
+    echo 'checking iterm2...'
     local missing=1
     [ -z "$(ls -l /Applications/ |grep iTerm.app)"  ] && missing=1
     if [ "$missing" -eq 1 ]; then
