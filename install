@@ -146,7 +146,7 @@ check_deps(){
     check_virtualbox_deps
     #check_pip
     #check_ansible_deps
-    check_sublime
+    #check_sublime
     #check_iterm2
 }
 
@@ -237,10 +237,10 @@ install_vagrant(){
 install_sublime_package_control(){
     echo 'installing sublime-package-control...'
     local dl_url=https://sublime.wbond.net/Package%20Control.sublime-package
-    local dl_tmp=/tmp/${SUBLIME_PC}
+    local dl_tmp=/tmp/sublime-package-control
     [ ! -f "${dl_tmp}" ] && download ${dl_url} ${dl_tmp}
     [ ! -d "${SUBLIME_PKGS_DIR}" ] && mkdir -p "${SUBLIME_PKGS_DIR}"
-    cp ${dl_tmp} "${SUBLIME_PKGS_DIR}"
+    cp ${dl_tmp} "${SUBLIME_PC_FILE}"
 }
 
 install_sublime(){
@@ -295,6 +295,7 @@ install(){
     check_deps
     install_deps
     install_brew_bundle
+    check_sublime_package_control
 }
 
 VBOX_URL=http://download.virtualbox.org/virtualbox
