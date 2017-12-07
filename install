@@ -23,6 +23,14 @@ download(){
     $curl --silent --location -o ${tempfile} ${url}
 }
 
+check_xcode(){
+    local missing=0
+    [ -z "$(xcode-select --print-path)" ] && missing=1
+    if [ "$missing" -eq 1 ]; then
+        echo 'xcode command-line tools are missing'
+        INSTALL+=("xcode")
+    fi
+}
 check_git(){
     local missing=0
     [ -z "$(which git)" ] && missing=1
@@ -129,6 +137,7 @@ check_iterm2(){
 }
 
 check_deps(){
+    check_xcode
     check_git
     check_homebrew
     check_vagrant
@@ -145,14 +154,17 @@ dedup_deps(){
     local install_homebrew=0
 }
 
+install_xcode(){
+    echo 'installing xcode command-line tools...'
+    xcode-select --install
+}
+
 install_git(){
     install_homebrew
 }
 
 install_homebrew(){
     echo 'installing homebrew...'
-    # the xcode command line tools include git; this makes sure the tools
-    # are installed - basically just does a `xcode-select --install`
     local hb_url=https://raw.githubusercontent.com/Homebrew/install/master/install
     ruby -e "$($curl -fSL ${hb_url})"
 }
