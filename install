@@ -25,8 +25,7 @@ download(){
 
 check_xcode(){
     echo 'checking xcode command-line tools...'
-    local missing=0
-    [ -z "$(xcode-select --print-path)" ] && missing=1
+    local missing=1  # for now always try to install
     if [ "$missing" -eq 1 ]; then
         echo 'xcode command-line tools are missing'
         INSTALL+=("xcode")
@@ -275,7 +274,7 @@ install_iterm2(){
 install_brew_bundle(){
     echo 'installing brew-bundle...'
     local build_dir=/tmp/sn-brew-bundle
-    local brewfile_url=https://git.io/vbc7u # Brewfile in this repo
+    local brewfile_url=https://git.io/vbc7u  # Brewfile in this repo
     local brewfile_tmp=${build_dir}/Brewfile
     [ ! -d "${build_dir}" ] && mkdir -p ${build_dir}
     [ -f "${brewfile_tmp}" ] && rm -f ${brewfile_tmp}
