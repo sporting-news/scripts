@@ -17,20 +17,16 @@ SUBLIME_PC_FILE=${SUBLIME_PKGS_DIR}/${SUBLIME_PC}
 curl=$(which curl)
 
 
+function pause(){
+    read -p "$*"
+}
+
 download(){
     local url="$1"; shift
     local tempfile="$1"
     $curl --silent --location -o ${tempfile} ${url}
 }
 
-check_xcode(){
-    echo 'checking xcode command-line tools...'
-    local missing=1  # for now always try to install
-    if [ "$missing" -eq 1 ]; then
-        echo 'xcode command-line tools are missing'
-        INSTALL+=("xcode")
-    fi
-}
 check_git(){
     echo 'checking git...'
     local missing=0
@@ -165,7 +161,8 @@ dedup_deps(){
 }
 
 install_xcode(){
-    echo 'installing xcode command-line tools...'
+    echo -e "installing xcode command-line tools in a new window...\n\n"
+    pause 'when xcode cli tools install is done, press any key to continue...'
     xcode-select --install
 }
 
@@ -294,6 +291,7 @@ install_deps(){
 }
 
 install(){
+    install_xcode
     check_deps
     install_deps
     install_brew_bundle
