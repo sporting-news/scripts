@@ -299,7 +299,7 @@ install(){
 }
 
 VBOX_URL=http://download.virtualbox.org/virtualbox
-VBOX_VERSION=$(get_latest_version_virtualbox)
-VBOX_BUILD=$(get_latest_build_virtualbox)
+VBOX_VERSION=5.0.10
+VBOX_BUILD=104061
 
 install
