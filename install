@@ -230,7 +230,7 @@ install_vagrant(){
     local dmg_tmp=/tmp/Vagrant_${version}.dmg
     [ ! -f "${dmg_tmp}" ] && download ${dmg_url} ${dmg_tmp}
     hdiutil attach -mountpoint /Volumes/Vagrant ${dmg_tmp}
-    sudo /usr/sbin/installer -pkg /Volumes/Vagrant/vagrant.pkg -target /
+    sudo /usr/sbin/installer -allowUntrusted -pkg /Volumes/Vagrant/vagrant.pkg -target /
     hdiutil detach /Volumes/Vagrant
 }
 
