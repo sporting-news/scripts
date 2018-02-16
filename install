@@ -216,8 +216,9 @@ install_virtualbox_extpack(){
     local fname=Oracle_VM_VirtualBox_Extension_Pack-${VBOX_VERSION}.vbox-extpack
     local ep_url=${dl_url}/${fname}
     local ep_tmp=/tmp/${fname}
+    local vbm=$(which VBoxManage)
     [ ! -f "${ep_tmp}" ] && download ${ep_url} ${ep_tmp}
-    /usr/bin/VBoxManage extpack install ${ep_tmp}
+    ${vbm} extpack install ${ep_tmp}
 }
 
 install_vagrant(){
