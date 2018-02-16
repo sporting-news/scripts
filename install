@@ -223,9 +223,8 @@ install_virtualbox_extpack(){
 install_vagrant(){
     echo 'installing vagrant...'
     local version=1.8.4
-    local arch=$(uname -m)
     local dl_url=https://releases.hashicorp.com/vagrant/${version}/vagrant_${version}
-    local dmg_url=${dl_url}_${arch}.dmg
+    local dmg_url=${dl_url}.dmg
     local sha_url=${dl_url}_SHA256SUMS
     local dmg_tmp=/tmp/Vagrant_${version}.dmg
     [ ! -f "${dmg_tmp}" ] && download ${dmg_url} ${dmg_tmp}
